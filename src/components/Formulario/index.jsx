@@ -1,3 +1,4 @@
+/*
 import React, { useState } from "react";
 import './Formulario.css';
 
@@ -85,3 +86,4 @@ function Formulario() {
 }
 
 }
+*/
