@@ -1,89 +1,102 @@
-/*
 import React, { useState } from "react";
-import './Formulario.css';
+import "./Formulario.css";
+import Empanada from "../Empanada/index";
 
 function Formulario() {
-    const [newPedido, setNewPedido] = useState({
-        nombreEmpleado: '',
-        sector: '',
-        listaGustos: [],
-        gustoActual: '',
-        cantidadActual: ''
-    });
-    
-    const gustosDisponibles = [
-        "Carne",
-        "Pollo",
-        "Jamón y queso",
-        "Humita",
-        "Caprese",
-        "Roquefort"
-      ];
-    const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewPedido({
-        ...newPedido,
+  const [pedido, setPedido] = useState({
+    nombreEmpleado: "",
+    sector: "",
+    gustos: [
+      {
+        nombreGusto: "",
+        cantidad: 0,
+      },
+    ],
+  });
+
+  const handleChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    setPedido((prevPedido) => {
+      return {
+        ...prevPedido,
         [name]: value,
+      };
     });
+  };
 
+  const agregarEmpanada = () => {
+    setPedido((prevPedido) => ({
+      ...prevPedido,
+      gustos: [
+        ...prevPedido.gustos,
+        {
+          nombreGusto: "",
+          cantidad: 0,
+        },
+      ],
+    }));
+  };
 
-    const handleAgregarEmpanada = (e) => {
-        e.preventDefault();
+  const gustosDisponibles = [
+    "Carne",
+    "Pollo",
+    "Jamón y queso",
+    "Humita",
+    "Caprese",
+    "Roquefort",
+  ];
 
-        if (!newPedido.gustoActual) return
-        
-        setNewPedido({
-            ...newPedido,
-            listaGustos: [...newPedido.listaGustos, { gusto: newPedido.gustoActual, cantidad: newPedido.cantidad }]
-        })
+  const sectorDisponibles = [
+    "Sistemas",
+    "Finanzas",
+    "Ventas",
+    "RRHH",
+    "Soporte",
+    "Deposito",
+  ];
 
-            
-        
-    };
-      
-    return (
-        <>
-        <form onSubmit={handleSubmit}>
+  return (
+    <>
+      <form>
         <label>Nombre Empleado</label>
         <input
-            type="text"
-            name="nombreEmpleado"
-            placeholder="Nombre de Empleado"
-            value={newPedido.nombreEmpleado}
-            onChange={handleChange}
+          type="text"
+          name="nombreEmpleado"
+          placeholder="Nombre de Empleado"
+          value={pedido.nombreEmpleado}
+          onChange={handleChange}
         />
 
         <label>Sector al que corresponde</label>
-        <select name="sector" value={newPedido.sector} onChange={handleChange}>
+        <select 
+            name="sector" 
+            value={pedido.sector} 
+            onChange={handleChange}>
             <option value="">Seleccione un sector</option>
-            <option value="Sistemas">Sistemas</option>
-            <option value="Finanzas">Finanzas</option>
-            <option value="Ventas">Ventas</option>
-            <option value="RRHH">RRHH</option>
-            <option value="Soporte">Soporte</option>
-            <option value="Depósito">Depósito</option>
-        </select>
-
-        <label>Gusto de empanada</label>
-        <select
-            name="gustoActual"
-            value={newPedido.gustoActual}
-            onChange={handleChange}
-        >
-            <option value="">Seleccione un gusto</option>
-            {gustosDisponibles.map((gusto, index) => (
-            <option key={index} value={gusto}>{gusto}</option>
+            {sectorDisponibles.map((sector, i) => (
+                <option key={i} value={sector}>
+                {sector}
+                </option>
             ))}
         </select>
 
-        <button type="button" onClick={handleAgregarEmpanada}>
-            Agregar otra empanada
+        {pedido.gustos.map((gusto, index) => (
+          <Empanada
+            key={index}
+            index={index}
+            gusto={gusto}
+            handleChange={handleChange}
+            gustosDisponibles={gustosDisponibles}
+          />
+        ))}
+
+        <button type="button" onClick={agregarEmpanada}>
+          Agregar otra empanada
         </button>
-              </form>
-        </>
-        
-    )
+      </form>
+    </>
+  );
 }
 
-}
-*/
+export default Formulario;
