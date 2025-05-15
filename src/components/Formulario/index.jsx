@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Formulario.css";
 import Empanada from "../Empanada/index";
 
-function Formulario() {
+function Formulario({agregarPedido}) {
   const [pedido, setPedido] = useState({
     nombreEmpleado: "",
     sector: "",
@@ -14,15 +14,25 @@ function Formulario() {
     ],
   });
 
-  const handleChange = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
-    setPedido((prevPedido) => {
-      return {
-        ...prevPedido,
+  const handleChange = (e, index = null) => {
+    const { name, value } = e.target;
+
+    if (index !== null) {
+      setPedido((prevPedido) => {
+        const nuevosGustos = [...prevPedido.gustos];
+        if (name === "cantidadEmpanadas") {
+          nuevosGustos[index].cantidad = value;
+        } else if (name === "nombreGusto") {
+          nuevosGustos[index].nombreGusto = value;
+        }
+        return { ...prevPedido, gustos: nuevosGustos };
+      });
+    } else {
+      setPedido({
+        ...pedido,
         [name]: value,
-      };
-    });
+      });
+    }
   };
 
   const agregarEmpanada = () => {
@@ -30,13 +40,21 @@ function Formulario() {
       ...prevPedido,
       gustos: [
         ...prevPedido.gustos,
-        {
-          nombreGusto: "",
-          cantidad: 0,
-        },
+        { nombreGusto: "", cantidad: 0 },
       ],
     }));
   };
+
+  const handleSubmit = () => {
+    agregarPedido(pedido); // Enviar el pedido al componente padre
+    setPedido({
+      nombreEmpleado: "",
+      sector: "",
+      gustos: [{ nombreGusto: "", cantidad: 0 }],
+    }); // Resetear el formulario
+  };
+
+  
 
   const gustosDisponibles = [
     "Carne",
@@ -93,6 +111,10 @@ function Formulario() {
 
         <button type="button" onClick={agregarEmpanada}>
           Agregar otra empanada
+        </button>
+    
+        <button type="button" onClick={() => handleSubmit()}>
+          Enviar pedido
         </button>
       </form>
     </>
