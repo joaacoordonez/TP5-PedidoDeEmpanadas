@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Formulario.css";
 import Empanada from "../Empanada/index";
 
-function Formulario({agregarPedido}) {
+function Formulario({onAgregarPedido}) {
   const [pedido, setPedido] = useState({
     nombreEmpleado: "",
     sector: "",
@@ -45,8 +45,8 @@ function Formulario({agregarPedido}) {
     }));
   };
 
-  const handleSubmit = () => {
-    agregarPedido(pedido); // Enviar el pedido al componente padre
+  const handleSubmit = (onAgregarPedido) => {
+    onAgregarPedido(pedido); // Enviar el pedido al componente padre
     setPedido({
       nombreEmpleado: "",
       sector: "",
@@ -113,12 +113,11 @@ function Formulario({agregarPedido}) {
           Agregar otra empanada
         </button>
     
-        <button type="button" onClick={() => handleSubmit()}>
+        <button type="button" onClick={() => handleSubmit(onAgregarPedido)}>
           Enviar pedido
         </button>
       </form>
     </>
   );
 }
-
 export default Formulario;

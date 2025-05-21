@@ -5,13 +5,12 @@ function Listado({ pedidos }) {
     pedido.gustos.forEach(({ nombreGusto, cantidad }) => { // recorremos el listado de pedido y de los gustos adentro
     
       if (!acumulador[nombreGusto]) /* chequea si ese gusto ya esta en el listado*/ {
-        acumulador[nombreGusto] = 0; /* Inicia el valor de ese gusto */
+        acumulador[nombreGusto] = 0; /* Inicia el valor de ese gusto si no esta en el listado */
       }
-      acumulador[nombreGusto] += cantidad; /* Si ya existe se le suma la cantidad*/
+      acumulador[nombreGusto] = parseInt(acumulador[nombreGusto])  + parseInt(cantidad); /* Si ya existe se le suma la cantidad*/
     });
     return acumulador;
   }, {} /*Inicia el valor del acumulador*/);
-
 
   const gustosArray = [];
   for (let gusto in totalPorGusto) {

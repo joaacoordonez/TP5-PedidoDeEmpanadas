@@ -8,17 +8,15 @@ function App() {
   const [pedidos, setPedidos] = useState([]);
   // La variable nuevoPedido viene desde formulario a traves de el boton y del onclick de manera prop
 
-  const agregarPedido = (nuevoPedido) => {
+  const onAgregarPedido = (nuevoPedido) => {
     setPedidos((prevPedido) => [...prevPedido, nuevoPedido]);
   };
   return (
     <>
-
     <h1>Pedido de empanadas</h1>
-      <Formulario onAgregarPedido={agregarPedido}/>
+      <Formulario onAgregarPedido={onAgregarPedido}/>
       <Listado pedidos={pedidos} />
     </>
   )
 }
-
 export default App
